@@ -3,10 +3,13 @@ package scores.http.handlers;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.mockito.Mockito;
+import scores.services.ScoreService;
 
 public class HighscoreListHandlerTest extends BaseHandlerTest {
 
-    private final HighscoreListHandler handler = new HighscoreListHandler();
+    private ScoreService scoreService = Mockito.mock(ScoreService.class);
+    private final HighscoreListHandler handler = new HighscoreListHandler(scoreService);
 
     @Test
     public void canHandle_urlContainsHighscoreList_returnsTrue() {
