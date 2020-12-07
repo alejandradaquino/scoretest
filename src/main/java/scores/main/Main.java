@@ -24,7 +24,7 @@ public class Main {
 
         //Handlers init
         HighscoreListHandler highscoreListHandler = new HighscoreListHandler();
-        ScoreHandler scoreHandler = new ScoreHandler(highscoreListHandler, new QueryParamsReader());
+        ScoreHandler scoreHandler = new ScoreHandler(highscoreListHandler, new QueryParamsReader(), sessionService);
         LoginHandler chain = new LoginHandler(scoreHandler, sessionService);
 
         //HTTP server start

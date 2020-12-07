@@ -2,13 +2,16 @@ package scores.http.handlers;
 
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import scores.http.readers.QueryParamsReader;
+import scores.services.SessionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScoreHandlerTest extends BaseHandlerTest {
 
-    private final ScoreHandler handler = new ScoreHandler(new QueryParamsReader());
+    private SessionService sessionService = Mockito.mock(SessionService.class);
+    private final ScoreHandler handler = new ScoreHandler(new QueryParamsReader(), sessionService);
 
     @Test
     public void canHandle_urlContainsScore_returnsTrue() {
