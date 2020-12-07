@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class SessionRepositoryTest {
     SessionRepository repository = new SessionRepository();
 
@@ -17,8 +19,9 @@ public class SessionRepositoryTest {
         repository.save(session);
 
         Optional<Session> maybeSession = repository.find("SOMEKEY");
-        Assertions.assertThat(maybeSession).isPresent();
-        Assertions.assertThat(maybeSession.get()).isEqualTo(session);
+
+        assertThat(maybeSession).isPresent();
+        assertThat(maybeSession.get()).isEqualTo(session);
 
     }
 
@@ -28,8 +31,8 @@ public class SessionRepositoryTest {
         repository.save(session);
 
         Optional<Session> maybeSession = repository.find("SOMEKEY");
-        Assertions.assertThat(maybeSession).isNotPresent();
 
+        assertThat(maybeSession).isNotPresent();
     }
 
 }

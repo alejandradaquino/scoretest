@@ -1,24 +1,30 @@
 package scores.services;
 
+import scores.model.Session;
 import scores.repositories.SessionRepository;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class SessionService {
     private long expirationTime;
-    SessionRepository repository;
+    private SessionRepository repository;
 
-    public SessionService(Long expirationTime) {
+    public SessionService(Long expirationTime, SessionRepository repository) {
         this.expirationTime = expirationTime;
+        this.repository = repository;
     }
 
     public String doLogin(Long userId) {
-        expirationTime++;
-        return UUID.randomUUID().toString();
+        String key = UUID.randomUUID().toString();
+        Session session = new Session(userId, key, Instant.now().plus(expirationTime, ChronoUnit.MILLIS).toEpochMilli());
+        repository.save(session);
+        return key;
     }
 
     public Boolean isValidSession(String sessionKey){
-        return true;
+        return repository.find(sessionKey).isPresent();
     }
 
     public Long getUserFrom(String sessionKey){
