@@ -3,6 +3,7 @@ package scores.http.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import scores.http.QueryParamsReader;
+import scores.http.exceptions.InvalidSessionException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,7 +21,6 @@ import static java.util.Optional.ofNullable;
 public abstract class BaseHandler implements HttpHandler {
 
     private Optional<HttpHandler> next;
-    private QueryParamsReader queryParamsReader = new QueryParamsReader();
 
     public BaseHandler() {
         this(empty());
@@ -36,17 +36,15 @@ public abstract class BaseHandler implements HttpHandler {
 
     protected abstract boolean  canHandle(HttpExchange exchange) ;
     protected abstract String doHandle(HttpExchange exchange);
-    protected Map<String,String> readParameters(URI uri){
-        return queryParamsReader.readParameters(uri.getQuery());
-    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        List<String> paths = stream(exchange.getRequestURI().getPath().split("/"))
-                                .filter(s->!s.isEmpty()).collect(Collectors.toList());
         if (canHandle(exchange)) {
-            try{
+            try {
                 sendResponse(exchange, doHandle(exchange), 200);
+            }catch (InvalidSessionException invalidSessionException){
+                sendResponse(exchange, "Invalid session token",403);
+
             }catch (Exception e){
                 sendResponse(exchange, "An error has occurred: "+ e.getMessage(),500);
             }

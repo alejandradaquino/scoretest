@@ -2,27 +2,34 @@ package scores.http.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import scores.http.QueryParamsReader;
+import scores.http.exceptions.InvalidSessionException;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Arrays.stream;
 
 public class ScoreHandler extends BaseHandler {
-    public ScoreHandler() {
+    private QueryParamsReader queryParamsReader;
+    public ScoreHandler(QueryParamsReader queryParamsReader) {
         super();
+        this.queryParamsReader = queryParamsReader;
     }
 
-    public ScoreHandler(HttpHandler handler) {
+    public ScoreHandler(HttpHandler handler, QueryParamsReader queryParamsReader) {
         super(handler);
+        this.queryParamsReader = queryParamsReader;
     }
 
     @Override
     protected String doHandle(HttpExchange exchange) {
         List<String> paths = getPaths(exchange);
         Long levelId = Long.valueOf(paths.get(0));
-        return "Score ok "+ levelId;
+        Map<String, String> params = queryParamsReader.readParameters(exchange.getRequestURI().getQuery());
+        String sessionkey = Optional.ofNullable(params.get("sessionkey")).orElseThrow(InvalidSessionException::new);
+        return "LevelId "+ levelId +" key: "+ sessionkey;
     }
 
     @Override

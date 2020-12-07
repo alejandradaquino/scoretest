@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         HighscoreListHandler highscoreListHandler = new HighscoreListHandler();
-        ScoreHandler scoreHandler = new ScoreHandler(highscoreListHandler);
+        ScoreHandler scoreHandler = new ScoreHandler(highscoreListHandler, new QueryParamsReader());
         LoginHandler chain = new LoginHandler(scoreHandler);
         SimpleHttpServer simpleHttpServer = new SimpleHttpServer(PORT, CONTEXT, chain);
 
