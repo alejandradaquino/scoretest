@@ -1,5 +1,6 @@
 package scores.services;
 
+import scores.http.exceptions.InvalidSessionException;
 import scores.model.Session;
 import scores.repositories.SessionRepository;
 
@@ -28,6 +29,6 @@ public class SessionService {
     }
 
     public Long getUserFrom(String sessionKey){
-        return 0L;
+        return repository.find(sessionKey).map(Session::getUserId).orElseThrow(InvalidSessionException::new);
     }
 }
