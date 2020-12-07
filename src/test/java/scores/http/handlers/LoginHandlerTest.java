@@ -2,12 +2,15 @@ package scores.http.handlers;
 
 
 import org.junit.Test;
+import org.mockito.Mockito;
+import scores.services.SessionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginHandlerTest extends BaseHandlerTest {
 
-    private final LoginHandler handler = new LoginHandler();
+    private SessionService sessionService = Mockito.mock(SessionService.class);
+    private final LoginHandler handler = new LoginHandler(sessionService);
 
     @Test
     public void canHandle_urlContainsLogin_returnsTrue() {
