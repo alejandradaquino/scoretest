@@ -2,7 +2,7 @@ package scores.http.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import scores.http.QueryParamsReader;
+import scores.http.readers.QueryParamsReader;
 import scores.http.exceptions.InvalidSessionException;
 
 import java.util.List;

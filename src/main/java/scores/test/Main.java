@@ -1,6 +1,6 @@
 package scores.test;
 
-import scores.http.QueryParamsReader;
+import scores.http.readers.QueryParamsReader;
 import scores.http.SimpleHttpServer;
 import scores.http.handlers.HighscoreListHandler;
 import scores.http.handlers.LoginHandler;

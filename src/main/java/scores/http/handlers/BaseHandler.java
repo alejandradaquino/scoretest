@@ -2,15 +2,11 @@ package scores.http.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import scores.http.QueryParamsReader;
 import scores.http.exceptions.InvalidSessionException;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

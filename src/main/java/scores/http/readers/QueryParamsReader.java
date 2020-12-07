@@ -1,4 +1,4 @@
-package scores.http;
+package scores.http.readers;
 
 import java.util.HashMap;
 import java.util.Map;

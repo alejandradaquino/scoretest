@@ -1,8 +1,8 @@
-package scores.http;
+package scores.http.readers;
 
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import scores.http.readers.QueryParamsReader;
 
 import java.util.Map;
 
