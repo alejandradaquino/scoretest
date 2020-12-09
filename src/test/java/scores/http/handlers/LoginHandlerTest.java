@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 import scores.services.SessionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.when;
 
 public class LoginHandlerTest extends BaseHandlerTest {
 
@@ -31,5 +33,11 @@ public class LoginHandlerTest extends BaseHandlerTest {
     public void canHandle_urlDoesnotContainsLogin_returnsFalse() {
         assertThat(handler.canHandle(exchangeFor("2332/otherstuff", "GET"))).isFalse();
     }
-
+    
+    @Test
+    public void doHandle_levelWithNoScores_returnsEmptyString() {
+        when(sessionService.doLogin(anyLong())).thenReturn("somekey");
+        String response = handler.doHandle(exchangeFor("2332/highscorelist", "GET"));
+        assertThat(response).isEqualTo("somekey");
+    }
 }

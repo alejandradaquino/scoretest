@@ -3,8 +3,10 @@ package scores.http.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import org.mockito.Mockito;
 
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 
 public class BaseHandlerTest {
     protected HttpExchange exchangeFor(String uri, String method) {
@@ -19,6 +21,13 @@ public class BaseHandlerTest {
 
         Mockito.when(exchange.getRequestURI()).thenReturn(requestURI);
         Mockito.when(exchange.getRequestMethod()).thenReturn(method);
+        return exchange;
+    }
+
+    protected HttpExchange exchangeFor(String uri, String method, String body) {
+        HttpExchange exchange = exchangeFor(uri,method);
+        Mockito.when(exchange.getRequestBody())
+                .thenReturn(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
         return exchange;
     }
 }

@@ -1,7 +1,6 @@
 package scores.http.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import scores.services.ScoreService;
 
 import java.util.List;
@@ -18,14 +17,8 @@ public class HighscoreListHandler extends BaseHandler{
         this.scoreService = scoreService;
     }
 
-    public HighscoreListHandler(HttpHandler next, ScoreService scoreService) {
-        super(next);
-        this.scoreService = scoreService;
-    }
-
     @Override
     protected String doHandle(HttpExchange exchange) {
-
         Long levelId = valueOf(getPaths(exchange).get(0));
         return scoreService.getHighestByLevel(levelId).stream()
                 .map(s->s.getUserId() + "=" + s.getScore())

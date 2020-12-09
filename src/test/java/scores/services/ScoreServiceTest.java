@@ -1,6 +1,7 @@
 package scores.services;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ListAssert;
 import org.junit.Before;
 import org.junit.Test;
 import scores.model.Score;
@@ -36,7 +37,7 @@ public class ScoreServiceTest {
         service.registerScore(score4);
 
         List<Score> highestByLevel = service.getHighestByLevel(levelId);
-        Assertions.assertThat(highestByLevel).containsExactly(score1, score2, score3, score4);
+        Assertions.assertThat(highestByLevel).containsExactly(score2, score3, score4, score1);
     }
 
     @Test
@@ -46,7 +47,7 @@ public class ScoreServiceTest {
 
         stream(scores).map(s -> new Score(1L, levelId, s)).forEach(service::registerScore);
 
-        Assertions.assertThat(service.getHighestByLevel(levelId).stream().map(Score::getScore)).containsOnly(11334556L, 101567L, 343656L, 23423235L, 10555551L);
+        thenFiveHighScoresOrderedForLevelAreReturned(levelId);
     }
 
     @Test
@@ -61,7 +62,15 @@ public class ScoreServiceTest {
         service.registerScore(score1Level1);
         service.registerScore(score2level1);
 
-        Assertions.assertThat(service.getHighestByLevel(levelId2).stream().map(Score::getScore)).containsOnly(11334556L, 101567L, 343656L, 23423235L, 10555551L);
-        Assertions.assertThat(service.getHighestByLevel(levelId1)).containsExactly(score1Level1, score2level1);
+        thenFiveHighScoresOrderedForLevelAreReturned(levelId2);
+        thenScore1And2AreReturnedForLevel(levelId1, score1Level1, score2level1);
+    }
+
+    private ListAssert<Score> thenScore1And2AreReturnedForLevel(long levelId1, Score score1Level1, Score score2level1) {
+        return Assertions.assertThat(service.getHighestByLevel(levelId1)).containsExactly(score2level1, score1Level1);
+    }
+
+    private void thenFiveHighScoresOrderedForLevelAreReturned(long levelId2) {
+        Assertions.assertThat(service.getHighestByLevel(levelId2).stream().map(Score::getScore)).containsExactly(23423235L, 11334556L, 10555551L, 343656L, 101567L);
     }
 }

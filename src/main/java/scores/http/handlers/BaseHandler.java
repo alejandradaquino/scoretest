@@ -4,7 +4,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import scores.http.exceptions.InvalidSessionException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,20 @@ public abstract class BaseHandler implements HttpHandler {
 
     private BaseHandler(Optional<HttpHandler> next) {
         this.next = next;
+    }
+
+    protected String readRequestBody(HttpExchange exchange){
+        try(InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "utf-8");
+            BufferedReader br = new BufferedReader(isr)) {
+            int b;
+            StringBuilder buf = new StringBuilder(512);
+            while ((b = br.read()) != -1) {
+                buf.append((char) b);
+            }
+            return buf.toString();
+        } catch (Exception e){
+            return "";
+        }
     }
 
     protected abstract boolean  canHandle(HttpExchange exchange) ;

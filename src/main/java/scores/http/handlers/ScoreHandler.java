@@ -56,20 +56,6 @@ public class ScoreHandler extends BaseHandler {
                 .orElseThrow(InvalidSessionException::new);
     }
 
-    private String readRequestBody(HttpExchange exchange){
-        try(InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "utf-8");
-                BufferedReader br = new BufferedReader(isr)) {
-            int b;
-            StringBuilder buf = new StringBuilder(512);
-            while ((b = br.read()) != -1) {
-                buf.append((char) b);
-            }
-            return buf.toString();
-        }catch (Exception e){
-            return "";
-        }
-    }
-
     @Override
     public boolean canHandle(HttpExchange exchange) {
         List<String> paths = getPaths(exchange);
