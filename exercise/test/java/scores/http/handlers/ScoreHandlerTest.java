@@ -43,7 +43,7 @@ public class ScoreHandlerTest extends BaseHandlerTest {
     }
 
     @Test
-    public void doHandle_registerScore() {
+    public void doHandle_registerScore_thenScoreServiceIsCalledWithArguments() {
         when(sessionService.getUserFrom(anyString())).thenReturn(773L);
         HttpExchange exchange = exchangeFor("2332/highscorelist?sessionkey=sdfeefsdfarf", "GET", "1234");
         Mockito.doAnswer(i->{

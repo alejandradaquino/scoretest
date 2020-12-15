@@ -1,6 +1,5 @@
 package scores.repositories;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import scores.model.Session;
 
